@@ -399,15 +399,13 @@ function Head(props) {
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
-            <div style={{display:"flex",alignItems:"center",gap:5,overflow:"hidden"}}>
-              {["MAKTUB","ROCKET IT","NEX"].map(function(n,i) {
-                return (
-                  <div key={n} style={{display:"flex",alignItems:"center",gap:5,flexShrink:0}}>
-                    <span style={{fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,color:"#FFFFFF",letterSpacing:".04em",whiteSpace:"nowrap"}}>{n}</span>
-                    {i<2&&<div style={{width:1,height:8,background:"rgba(255,255,255,.3)",flexShrink:0}}/>}
-                  </div>
-                );
-              })}
+            <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3}}>
+              <div style={{display:"flex",alignItems:"center",gap:5}}>
+                <span style={{fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,color:"#FFFFFF",letterSpacing:".04em"}}>MAKTUB</span>
+                <div style={{width:1,height:8,background:"rgba(255,255,255,.3)"}}/>
+                <span style={{fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,color:"#FFFFFF",letterSpacing:".04em"}}>ROCKET IT</span>
+              </div>
+              <span style={{fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,color:"#FFFFFF",letterSpacing:".04em"}}>NEX</span>
             </div>
             <button onClick={props.onBack}
               style={{background:"rgba(255,255,255,.1)",color:"rgba(255,255,255,.8)",border:"1px solid rgba(255,255,255,.15)",borderRadius:6,padding:"6px 14px",fontSize:10,cursor:"pointer",fontFamily:"inherit"}}>
