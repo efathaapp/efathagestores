@@ -491,7 +491,7 @@ export default function App() {
           var last = data.reduce(function(m, i) { return Math.max(m, i.updatedAt || 0); }, 0);
           if (last) setTs(last);
         });
-      }, 20000);
+      }, 3000);
       return function() { clearInterval(t); };
     }
   }, [view]);
