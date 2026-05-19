@@ -399,12 +399,12 @@ function Head(props) {
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
-            <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
               {["MAKTUB","ROCKET IT","NEX"].map(function(n,i) {
                 return (
-                  <div key={n} style={{display:"flex",alignItems:"center",gap:10}}>
-                    <span style={{fontFamily:"'Orbitron',monospace",fontSize:8,color:"rgba(255,255,255,.35)",letterSpacing:".1em"}}>{n}</span>
-                    {i<2&&<div style={{width:1,height:10,background:"rgba(255,255,255,.15)"}}/>}
+                  <div key={n} style={{display:"flex",alignItems:"center",gap:8}}>
+                    <span style={{fontFamily:"'Orbitron',monospace",fontSize:8,fontWeight:700,color:"#FFFFFF",letterSpacing:".08em",whiteSpace:"nowrap"}}>{n}</span>
+                    {i<2&&<div style={{width:1,height:10,background:"rgba(255,255,255,.3)"}}/>}
                   </div>
                 );
               })}
@@ -449,37 +449,35 @@ function Head(props) {
         {/* GERAL TAB */}
         {tab === "geral" && (
           <div className="anim">
-            <div style={{display:"grid",gridTemplateColumns:"auto 1fr",gap:18,marginBottom:18}}>
-              {/* DONUT */}
-              <div style={{background:"#FFFFFF",border:"1px solid #E2E8F0",borderRadius:12,padding:"20px 24px",boxShadow:"0 1px 4px rgba(0,0,0,.04)"}}>
-                <div className="orb" style={{fontSize:8,fontWeight:700,color:"#94A3B8",letterSpacing:".1em",marginBottom:16}}>DISTRIBUIÇÃO</div>
-                <DonutChart items={items}/>
-              </div>
+            {/* DONUT + KPI em linha */}
+            <div style={{background:"#FFFFFF",border:"1px solid #E2E8F0",borderRadius:12,padding:"16px 20px",marginBottom:14,boxShadow:"0 1px 4px rgba(0,0,0,.04)"}}>
+              <div className="orb" style={{fontSize:8,fontWeight:700,color:"#94A3B8",letterSpacing:".1em",marginBottom:14}}>DISTRIBUIÇÃO POR PRIORIDADE</div>
+              <DonutChart items={items}/>
+            </div>
 
-              {/* AREA GRID */}
-              <div>
-                <div className="orb" style={{fontSize:8,fontWeight:700,color:"#94A3B8",letterSpacing:".1em",marginBottom:12}}>ÁREAS ATIVAS</div>
-                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))",gap:8}}>
-                  {aStats.map(function(a) {
-                    return (
-                      <div key={a.id} style={{background:"#FFFFFF",border:"1px solid #E2E8F0",borderLeft:"3px solid "+a.accent,borderRadius:10,padding:"12px",boxShadow:"0 1px 4px rgba(0,0,0,.04)"}}>
-                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-                          <span style={{fontSize:18}}>{a.icon}</span>
-                          <span className="orb" style={{fontSize:10,fontWeight:700,color:a.accent}}>{a.ct}</span>
-                        </div>
-                        <div style={{fontSize:10,fontWeight:700,color:a.accent,marginBottom:6}}>{a.label}</div>
-                        <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
-                          {PRI.map(function(p) {
-                            var ct = a.items.filter(function(i) { return i.priority===p.id; }).length;
-                            if (!ct) return null;
-                            return <span key={p.id} style={{fontSize:8,fontWeight:600,padding:"1px 6px",borderRadius:10,background:p.bg,color:p.color,border:"1px solid "+p.bd}}>{p.dot}{ct}</span>;
-                          })}
-                        </div>
-                        {a.crit>0&&<div style={{fontSize:8,color:"#DC2626",marginTop:5,fontWeight:600,animation:"blink 1s step-end infinite"}}>⚠ {a.crit} crítico{a.crit>1?"s":""}</div>}
+            {/* AREA GRID */}
+            <div style={{marginBottom:14}}>
+              <div className="orb" style={{fontSize:8,fontWeight:700,color:"#94A3B8",letterSpacing:".1em",marginBottom:10}}>ÁREAS ATIVAS</div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:8}}>
+                {aStats.map(function(a) {
+                  return (
+                    <div key={a.id} style={{background:"#FFFFFF",border:"1px solid #E2E8F0",borderLeft:"3px solid "+a.accent,borderRadius:10,padding:"10px 12px",boxShadow:"0 1px 4px rgba(0,0,0,.04)"}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                        <span style={{fontSize:16}}>{a.icon}</span>
+                        <span className="orb" style={{fontSize:10,fontWeight:700,color:a.accent}}>{a.ct}</span>
                       </div>
-                    );
-                  })}
-                </div>
+                      <div style={{fontSize:10,fontWeight:700,color:a.accent,marginBottom:5}}>{a.label}</div>
+                      <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+                        {PRI.map(function(p) {
+                          var ct = a.items.filter(function(i) { return i.priority===p.id; }).length;
+                          if (!ct) return null;
+                          return <span key={p.id} style={{fontSize:8,fontWeight:600,padding:"1px 5px",borderRadius:10,background:p.bg,color:p.color,border:"1px solid "+p.bd}}>{p.dot}{ct}</span>;
+                        })}
+                      </div>
+                      {a.crit>0&&<div style={{fontSize:8,color:"#DC2626",marginTop:4,fontWeight:600,animation:"blink 1s step-end infinite"}}>⚠ {a.crit} crítico{a.crit>1?"s":""}</div>}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
