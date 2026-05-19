@@ -399,12 +399,12 @@ function Head(props) {
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:14}}>
-            <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{display:"flex",alignItems:"center",gap:5,overflow:"hidden"}}>
               {["MAKTUB","ROCKET IT","NEX"].map(function(n,i) {
                 return (
-                  <div key={n} style={{display:"flex",alignItems:"center",gap:8}}>
-                    <span style={{fontFamily:"'Orbitron',monospace",fontSize:8,fontWeight:700,color:"#FFFFFF",letterSpacing:".08em",whiteSpace:"nowrap"}}>{n}</span>
-                    {i<2&&<div style={{width:1,height:10,background:"rgba(255,255,255,.3)"}}/>}
+                  <div key={n} style={{display:"flex",alignItems:"center",gap:5,flexShrink:0}}>
+                    <span style={{fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,color:"#FFFFFF",letterSpacing:".04em",whiteSpace:"nowrap"}}>{n}</span>
+                    {i<2&&<div style={{width:1,height:8,background:"rgba(255,255,255,.3)",flexShrink:0}}/>}
                   </div>
                 );
               })}
