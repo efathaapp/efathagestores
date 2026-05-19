@@ -45,7 +45,7 @@ async function loadItems() {
 
 async function upsertItem(item) {
   var updated_at = item.updatedAt;
-  var row = { id: item.id, area: item.area, topic: item.topic, priority: item.priority, tag: item.tag, responsible: item.responsible, updated_at: updated_at };
+  var row = { id: item.id, area: item.area, topic: item.topic, priority: item.priority, tag: item.tag, responsible: item.responsible, notes: item.notes||"", updated_at: updated_at };
   if (supabase) { await supabase.from("items").upsert(row, { onConflict: "id" }); }
   else {
     const all = JSON.parse(localStorage.getItem("efatha_items") || "[]");
@@ -178,7 +178,7 @@ function Home(props) {
             <div style={{width:32,height:1,background:"#CBD5E1"}}/>
           </div>
         </div>
-        <div className="orb" style={{fontSize:9,color:"#64748B",letterSpacing:".12em"}}>PAINEL DE GESTÃO · SELECIONE SUA ÁREA</div>
+        <div className="orb" style={{fontSize:10,color:"#0F172A",letterSpacing:".12em",fontWeight:700}}>PAINEL DE GESTÃO · SELECIONE SUA ÁREA</div>
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:16}}>
@@ -224,11 +224,12 @@ function Form(props) {
   const [pri, setPri] = useState(item ? item.priority : "andamento");
   const [tag, setTag] = useState(item ? item.tag : "");
   const [resp, setResp] = useState(item ? item.responsible : "");
+  const [notes, setNotes] = useState(item ? (item.notes || "") : "");
   var a = getA(areaId);
 
   function doSave() {
     if (!topic.trim()) return;
-    props.onSave({ id: item ? item.id : uid(), area: areaId, topic: topic.trim(), priority: pri, tag: tag.trim(), responsible: resp.trim(), updatedAt: Date.now() });
+    props.onSave({ id: item ? item.id : uid(), area: areaId, topic: topic.trim(), priority: pri, tag: tag.trim(), responsible: resp.trim(), notes: notes.trim(), updatedAt: Date.now() });
   }
 
   return (
@@ -261,7 +262,7 @@ function Form(props) {
         </div>
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}}>
         <div>
           <div style={{fontSize:8,color:"#94A3B8",textTransform:"uppercase",letterSpacing:".08em",marginBottom:5,fontWeight:600}}>Prazo / Status</div>
           <input value={tag} onChange={function(e) { setTag(e.target.value); }} placeholder="Ex: ATÉ 15/05"
@@ -272,6 +273,11 @@ function Form(props) {
           <input value={resp} onChange={function(e) { setResp(e.target.value); }} placeholder="Nome"
             style={{width:"100%",padding:"9px 10px",border:"1.5px solid #E2E8F0",borderRadius:8,background:"#F8FAFC",color:"#0F172A"}}/>
         </div>
+      </div>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:8,color:"#94A3B8",textTransform:"uppercase",letterSpacing:".08em",marginBottom:5,fontWeight:600}}>Anotações / Observações</div>
+        <textarea value={notes} onChange={function(e) { setNotes(e.target.value); }} placeholder="Informações relevantes sobre este tema..."
+          style={{width:"100%",padding:"9px 10px",border:"1.5px solid #E2E8F0",borderRadius:8,background:"#F8FAFC",color:"#0F172A",fontFamily:"inherit",fontSize:12,resize:"vertical",minHeight:72}}/>
       </div>
 
       <button onClick={doSave}
@@ -334,6 +340,8 @@ function AreaView(props) {
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
                   <span style={{fontSize:10,color:p.color,fontWeight:600}}>{p.dot} {p.label}</span>
                   {it.responsible && <span style={{fontSize:9,color:"#94A3B8"}}>· {it.responsible}</span>}
+                </div>
+                {it.notes && <div style={{fontSize:10,color:"#64748B",marginTop:6,paddingTop:6,borderTop:"1px solid #F1F5F9",lineHeight:1.5}}>📝 {it.notes}</div>}
                 </div>
                 <div style={{display:"flex",gap:5}}>
                   <button onClick={function() { setEditing(it); }}
@@ -548,6 +556,7 @@ function Head(props) {
                             <div style={{flex:1,minWidth:0}}>
                               <div style={{fontSize:11,fontWeight:600,color:"#0F172A",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{it.topic}</div>
                               <div style={{fontSize:9,color:"#94A3B8",marginTop:2}}>{p.dot} {p.label}{it.responsible?" · "+it.responsible:""}</div>
+                              {it.notes&&<div style={{fontSize:9,color:"#64748B",marginTop:3}}>📝 {it.notes}</div>}
                             </div>
                             {it.tag&&<Tag p={p} text={it.tag}/>}
                           </div>
