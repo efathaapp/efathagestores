@@ -341,8 +341,6 @@ function AreaView(props) {
                   <span style={{fontSize:10,color:p.color,fontWeight:600}}>{p.dot} {p.label}</span>
                   {it.responsible && <span style={{fontSize:9,color:"#94A3B8"}}>· {it.responsible}</span>}
                 </div>
-                {it.notes && <div style={{fontSize:10,color:"#64748B",marginTop:6,paddingTop:6,borderTop:"1px solid #F1F5F9",lineHeight:1.5}}>📝 {it.notes}</div>}
-                </div>
                 <div style={{display:"flex",gap:5}}>
                   <button onClick={function() { setEditing(it); }}
                     style={{background:"#F8FAFC",border:"1px solid #E2E8F0",borderRadius:6,padding:"4px 9px",fontSize:10,cursor:"pointer"}}>✏️</button>
@@ -350,6 +348,7 @@ function AreaView(props) {
                     style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:6,padding:"4px 9px",fontSize:10,cursor:"pointer",color:"#DC2626"}}>🗑</button>
                 </div>
               </div>
+              {it.notes && <div style={{fontSize:10,color:"#64748B",marginTop:8,paddingTop:8,borderTop:"1px solid #F1F5F9",lineHeight:1.5}}>📝 {it.notes}</div>}
             </div>
           );
         })}
