@@ -70,9 +70,15 @@ async function loadItems() {
 
 async function upsertItem(item) {
   var updated_at = item.updatedAt;
-  var row = { id:item.id, area:item.area, topic:item.topic, priority:item.priority, tag:item.tag, responsible:item.responsible, notes:item.notes||"", updated_at, history:item.history||[] };
-  if (supabase) { await supabase.from("items").upsert(row, { onConflict:"id" }); }
-  else {
+  var row = { id:item.id, area:item.area, topic:item.topic, priority:item.priority, tag:item.tag||"", responsible:item.responsible||"", notes:item.notes||"", updated_at:updated_at, history:item.history||[] };
+  if (supabase) {
+    var result = await supabase.from("items").upsert(row, { onConflict:"id" });
+    if (result.error) {
+      // Retry without history if column doesn't exist yet
+      var rowNoHistory = { id:item.id, area:item.area, topic:item.topic, priority:item.priority, tag:item.tag||"", responsible:item.responsible||"", notes:item.notes||"", updated_at:updated_at };
+      await supabase.from("items").upsert(rowNoHistory, { onConflict:"id" });
+    }
+  } else {
     const all = JSON.parse(localStorage.getItem("efatha_items") || "[]");
     const idx = all.findIndex((i) => i.id === item.id);
     idx >= 0 ? (all[idx] = item) : all.push(item);
